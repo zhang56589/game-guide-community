@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- ========== 加载 jdbc.properties ========== -->
+    <context:property-placeholder location="classpath:jdbc.properties" />
+
+    <!-- ========== Druid 数据源 ========== -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="url"          value="${jdbc.url}" />
+        <property name="username"     value="${jdbc.username}" />
+        <property name="password"     value="${jdbc.password}" />
+        <property name="initialSize"  value="5" />
+        <property name="maxActive"    value="20" />
+        <property name="minIdle"      value="5" />
+        <property name="maxWait"      value="60000" />
+    </bean>
+
+    <!-- ========== Spring JdbcTemplate ========== -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- ========== 事务管理器 ========== -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager" />
+    <aop:aspectj-autoproxy />
+
+    <!-- =======================================
+         DAO 层 Bean
+    ======================================= -->
+    <bean id="userDao"       class="com.dao.impl.UserDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+    <bean id="strategyDao"   class="com.dao.impl.StrategyDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+    <bean id="categoryDao"  class="com.dao.impl.CategoryDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+    <bean id="auditLogDao"  class="com.dao.impl.AuditLogDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+
+    <!-- =======================================
+         Service 层 Bean
+    ======================================= -->
+    <bean id="userService"       class="com.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao" />
+    </bean>
+    <bean id="strategyService"   class="com.service.impl.StrategyServiceImpl">
+        <property name="strategyDao" ref="strategyDao" />
+        <property name="userDao"     ref="userDao" />
+    </bean>
+    <bean id="categoryService"   class="com.service.impl.CategoryServiceImpl">
+        <property name="categoryDao" ref="categoryDao" />
+    </bean>
+
+    <!-- =======================================
+         AOP 审计切面（XML 声明式，无 @Aspect）
+    ======================================= -->
+    <bean id="auditAspect" class="com.aspect.AuditAspect">
+        <property name="auditLogDao" ref="auditLogDao" />
+    </bean>
+
+    <aop:config>
+        <!-- 切点：所有 Service impl 的所有 public 方法（排除 AuditDao 所在 dao 包，避免递归） -->
+        <aop:pointcut id="servicePointcut"
+                      expression="execution(* com.service.impl.*.*(..))" />
+
+        <!-- 切面绑定：纯 POJO + XML 配置 -->
+        <aop:aspect id="auditAop" ref="auditAspect">
+            <aop:around method="around" pointcut-ref="servicePointcut" />
+        </aop:aspect>
+    </aop:config>
+
+    <!-- Filter 全部用原生 Tomcat Filter 配置在 web.xml，Spring 不管理 -->
+
+</beans>

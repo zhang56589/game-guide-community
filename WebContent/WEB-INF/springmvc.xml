@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- ========== 开启注解支持 ========== -->
+    <mvc:annotation-driven />
+
+    <!-- ========== 静态资源放行 ========== -->
+    <mvc:resources mapping="/static/**" location="/static/" />
+
+    <!-- ========== JSP 视图解析器 ========== -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/" />
+        <property name="suffix" value=".jsp" />
+        <property name="contentType" value="text/html;charset=UTF-8" />
+    </bean>
+
+    <!-- ========== SimpleUrlHandlerMapping ========== -->
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="0" />
+        <property name="mappings">
+            <props>
+                <!-- 首页/公共 -->
+                <prop key="/">homeController</prop>
+                <prop key="/home">homeController</prop>
+                <prop key="/index">homeController</prop>
+                <prop key="/detail">detailController</prop>
+                <prop key="/strategy/detail">detailController</prop>
+                <prop key="/search">homeController</prop>
+
+                <!-- 用户认证 -->
+                <prop key="/login">loginController</prop>
+                <prop key="/dologin">dologinController</prop>
+                <prop key="/register">registerController</prop>
+                <prop key="/doregister">doregisterController</prop>
+                <prop key="/logout">logoutController</prop>
+
+                <!-- 攻略操作(需登录) -->
+                <prop key="/strategy/publish">publishController</prop>
+                <prop key="/strategy/dopublish">dopublishController</prop>
+                <prop key="/my">myController</prop>
+                <prop key="/my/delete">deleteMyController</prop>
+
+                <!-- 管理员 -->
+                <prop key="/admin">adminHomeController</prop>
+                <prop key="/admin/user">adminUserController</prop>
+                <prop key="/admin/user/status">adminUserStatusController</prop>
+                <prop key="/admin/strategy">adminStrategyController</prop>
+                <prop key="/admin/strategy/delete">adminStrategyDeleteController</prop>
+                <prop key="/admin/strategy/audit">adminStrategyAuditController</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- ========== Controller Beans ========== -->
+    <bean id="homeController" class="com.controller.HomeController">
+        <property name="strategyService" ref="strategyService" />
+        <property name="categoryService" ref="categoryService" />
+    </bean>
+    <bean id="detailController" class="com.controller.DetailController">
+        <property name="strategyService" ref="strategyService" />
+    </bean>
+    <bean id="loginController" class="com.controller.LoginController" />
+    <bean id="dologinController" class="com.controller.DoLoginController">
+        <property name="userService" ref="userService" />
+    </bean>
+    <bean id="registerController" class="com.controller.RegisterController" />
+    <bean id="doregisterController" class="com.controller.DoRegisterController">
+        <property name="userService" ref="userService" />
+    </bean>
+    <bean id="logoutController" class="com.controller.LogoutController" />
+
+    <bean id="publishController" class="com.controller.PublishController">
+        <property name="categoryService" ref="categoryService" />
+    </bean>
+    <bean id="dopublishController" class="com.controller.DoPublishController">
+        <property name="strategyService" ref="strategyService" />
+    </bean>
+    <bean id="myController" class="com.controller.MyStrategyController">
+        <property name="strategyService" ref="strategyService" />
+    </bean>
+    <bean id="deleteMyController" class="com.controller.DeleteMyStrategyController">
+        <property name="strategyService" ref="strategyService" />
+    </bean>
+
+    <bean id="adminHomeController" class="com.controller.AdminHomeController">
+        <property name="userService"     ref="userService" />
+        <property name="strategyService" ref="strategyService" />
+    </bean>
+    <bean id="adminUserController" class="com.controller.AdminUserController">
+        <property name="userService" ref="userService" />
+    </bean>
+    <bean id="adminUserStatusController" class="com.controller.AdminUserStatusController">
+        <property name="userService" ref="userService" />
+    </bean>
+    <bean id="adminStrategyController" class="com.controller.AdminStrategyController">
+        <property name="strategyService" ref="strategyService" />
+    </bean>
+    <bean id="adminStrategyDeleteController" class="com.controller.AdminStrategyDeleteController">
+        <property name="strategyService" ref="strategyService" />
+    </bean>
+    <bean id="adminStrategyAuditController" class="com.controller.AdminStrategyAuditController">
+        <property name="strategyService" ref="strategyService" />
+    </bean>
+
+</beans>

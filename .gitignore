@@ -1,0 +1,15 @@
+# STS/Eclipse
+.settings/
+build/
+.classpath
+.project
+# 编译class
+*.class
+# 临时文件
+*.log
+*.tmp
+# 数据库配置（防止密码上传，可选）
+src/jdbc.properties
+# 操作系统文件
+.DS_Store
+Thumbs.db

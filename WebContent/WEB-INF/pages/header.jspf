@@ -1,0 +1,46 @@
+<%-- 公共导航头部 --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>🎮 GameStrategyPlatform - 游戏攻略分享平台</title>
+    <style>
+        body { margin:0; font-family:'Microsoft YaHei',Arial,sans-serif; background:#f0f2f5; }
+    </style>
+</head>
+<body>
+
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+
+<nav style="background:#2c3e50;padding:15px 20px;color:#fff;display:flex;align-items:center;justify-content:space-between;">
+    <div style="font-size:22px;font-weight:bold;">
+        <a href="${ctx}/" style="color:#fff;text-decoration:none;">🎮 GameStrategyPlatform</a>
+    </div>
+
+    <form action="${ctx}/search" method="get" style="display:flex;gap:6px;">
+        <input type="text" name="keyword" placeholder="搜索攻略或游戏..."
+               value="${param.keyword}"
+               style="padding:6px 10px;width:260px;border:none;border-radius:3px;" />
+        <button type="submit" style="padding:6px 16px;background:#e74c3c;color:#fff;border:none;border-radius:3px;cursor:pointer;">搜索</button>
+    </form>
+
+    <div>
+        <c:if test="${empty loginUser}">
+            <a href="${ctx}/login"  style="color:#ecf0f1;margin-right:15px;text-decoration:none;">登录</a>
+            <a href="${ctx}/register" style="color:#ecf0f1;margin-right:15px;text-decoration:none;">注册</a>
+        </c:if>
+        <c:if test="${not empty loginUser}">
+            <span style="color:#ecf0f1;margin-right:15px;">👤 ${loginUser.nickname}</span>
+            <a href="${ctx}/strategy/publish" style="color:#2ecc71;margin-right:15px;text-decoration:none;">发布攻略</a>
+            <a href="${ctx}/my" style="color:#3498db;margin-right:15px;text-decoration:none;">我的攻略</a>
+            <c:if test="${loginUser.role == 1}">
+                <a href="${ctx}/admin" style="color:#f1c40f;margin-right:15px;text-decoration:none;">⚙ 管理后台</a>
+            </c:if>
+            <a href="${ctx}/logout" style="color:#ecf0f1;text-decoration:none;"
+               onclick="return confirm('确定退出登录?')">退出</a>
+        </c:if>
+    </div>
+</nav>
