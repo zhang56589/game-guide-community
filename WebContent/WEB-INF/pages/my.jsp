@@ -26,9 +26,9 @@
             <c:forEach items="${myList}" var="s">
                 <tr style="border-bottom:1px solid #eee;">
                     <td style="padding:12px;">
-                        <a href="${ctx}/strategy/detail?id=${s.id}" style="color:#2c3e50;text-decoration:none;">📖 ${s.title}</a>
+                        <a href="${ctx}/strategy/detail?id=${s.id}" style="color:#2c3e50;text-decoration:none;">📖 <c:out value="${s.title}" /></a>
                     </td>
-                    <td style="padding:12px;text-align:center;">${s.gameName}</td>
+                    <td style="padding:12px;text-align:center;"><c:out value="${s.gameName}" /></td>
                     <td style="padding:12px;text-align:center;">
                         <c:if test="${s.status == 1}"><span style="color:#27ae60;">正常</span></c:if>
                         <c:if test="${s.status == 0}"><span style="color:#e74c3c;">已删除</span></c:if>

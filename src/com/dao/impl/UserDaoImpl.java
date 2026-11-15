@@ -5,8 +5,6 @@ import com.bean.User;
 import com.dao.UserDao;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 /**
  * 用户 DAO 实现类
@@ -24,8 +22,10 @@ public class UserDaoImpl implements UserDao {
     private static final String FIND_BY_ID       = "SELECT * FROM t_user WHERE id = ?";
     private static final String FIND_BY_NAME     = "SELECT * FROM t_user WHERE username = ?";
     private static final String FIND_BY_NAME_PWD  = "SELECT * FROM t_user WHERE username = ? AND password = ?";
-    private static final String INSERT_USER      = "INSERT INTO t_user(username,password,salt,nickname,role) VALUES(?,?,?,?,?)";
+    private static final String INSERT_USER      = "INSERT INTO t_user(username,password,salt,nickname,role,status) VALUES(?,?,?,?,?,?)";
     private static final String UPDATE_USER      = "UPDATE t_user SET nickname=?, status=?, role=? WHERE id=?";
+    private static final String UPDATE_STATUS    = "UPDATE t_user SET status=? WHERE id=?";
+    private static final String UPDATE_ROLE      = "UPDATE t_user SET role=? WHERE id=?";
     private static final String UPDATE_PWD       = "UPDATE t_user SET password=?, salt=? WHERE id=?";
     private static final String FIND_ALL         = "SELECT * FROM t_user ORDER BY id DESC";
     private static final String COUNT_ALL        = "SELECT COUNT(*) FROM t_user";
@@ -53,21 +53,30 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public int insert(User user) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        int rows = jdbcTemplate.update(INSERT_USER,
-                new Object[]{ user.getUsername(), user.getPassword(), user.getSalt(),
-                              user.getNickname(), user.getRole() },
-                keyHolder);
-        if (keyHolder.getKey() != null) {
-            user.setId(keyHolder.getKey().intValue());
-        }
-        return rows;
+        // 修复点：移除了 GeneratedKeyHolder，直接执行插入
+        return jdbcTemplate.update(INSERT_USER, 
+                user.getUsername(), 
+                user.getPassword(), 
+                user.getSalt(),
+                user.getNickname(), 
+                user.getRole(),
+                user.getStatus());
     }
 
     @Override
     public int update(User user) {
         return jdbcTemplate.update(UPDATE_USER,
                 user.getNickname(), user.getStatus(), user.getRole(), user.getId());
+    }
+
+    @Override
+    public int updateStatus(Integer id, Integer status) {
+        return jdbcTemplate.update(UPDATE_STATUS, status, id);
+    }
+
+    @Override
+    public int updateRole(Integer id, Integer role) {
+        return jdbcTemplate.update(UPDATE_ROLE, role, id);
     }
 
     @Override

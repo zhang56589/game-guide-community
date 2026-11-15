@@ -74,8 +74,18 @@
     <!-- =======================================
          AOP 审计切面（XML 声明式，无 @Aspect）
     ======================================= -->
+    <!-- SEC-1 修复：有界线程池，避免 SimpleAsyncTaskExecutor 每任务新建线程导致线程爆炸 -->
+    <bean id="auditExecutor"
+          class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="2" />
+        <property name="maxPoolSize" value="5" />
+        <property name="queueCapacity" value="200" />
+        <property name="threadNamePrefix" value="audit-" />
+    </bean>
+
     <bean id="auditAspect" class="com.aspect.AuditAspect">
-        <property name="auditLogDao" ref="auditLogDao" />
+        <property name="auditLogDao"  ref="auditLogDao" />
+        <property name="auditExecutor" ref="auditExecutor" />
     </bean>
 
     <aop:config>

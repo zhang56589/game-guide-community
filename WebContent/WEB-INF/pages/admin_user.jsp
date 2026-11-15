@@ -27,8 +27,8 @@
                     onmouseover="this.style.background='#f1f3f5'"
                     onmouseout="this.style.background=''">
                     <td style="padding:10px;text-align:center;">${u.id}</td>
-                    <td style="padding:10px;">${u.username}</td>
-                    <td style="padding:10px;">${u.nickname}</td>
+                    <td style="padding:10px;"><c:out value="${u.username}" /></td>
+                    <td style="padding:10px;"><c:out value="${u.nickname}" /></td>
                     <td style="padding:10px;text-align:center;">
                         <c:if test="${u.role == 1}"><span style="color:#f1c40f;font-weight:bold;">管理员</span></c:if>
                         <c:if test="${u.role == 0}">普通用户</c:if>
@@ -41,9 +41,9 @@
                         <fmt:formatDate value="${u.createTime}" pattern="yyyy-MM-dd HH:mm"/>
                     </td>
                     <td style="padding:10px;text-align:center;font-size:13px;">
-                        <c:if test="${u.status == 1}">
+                        <c:if test="${u.status == 1 and u.id != loginUser.id}">
                             <form method="post" action="${ctx}/admin/user/status" style="display:inline;margin-right:8px;"
-                                  onsubmit="return confirm('禁用 ${u.username}?')">
+                                  onsubmit="return confirm('禁用 <c:out value="${u.username}" /> ?')">
                                 <input type="hidden" name="_csrf" value="${sessionScope._csrf}" />
                                 <input type="hidden" name="id" value="${u.id}" />
                                 <input type="hidden" name="action" value="disable" />
@@ -68,7 +68,7 @@
                         </c:if>
                         <c:if test="${u.role == 1 and u.id != loginUser.id}">
                             <form method="post" action="${ctx}/admin/user/status" style="display:inline;"
-                                  onsubmit="return confirm('取消 ${u.username} 管理员权限?')">
+                                  onsubmit="return confirm('取消 <c:out value="${u.username}" /> 管理员权限?')">
                                 <input type="hidden" name="_csrf" value="${sessionScope._csrf}" />
                                 <input type="hidden" name="id" value="${u.id}" />
                                 <input type="hidden" name="action" value="demote" />

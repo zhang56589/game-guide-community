@@ -22,6 +22,12 @@ public interface UserDao {
     /** 更新用户(昵称/状态等) */
     int      update(User user);
 
+    /** PERF-2 性能优化：直接按 id 改状态，避免先 findById 再 update 的 N+1 */
+    int      updateStatus(Integer id, Integer status);
+
+    /** PERF-2 性能优化：直接按 id 改角色，避免先 findById 再 update 的 N+1 */
+    int      updateRole(Integer id, Integer role);
+
     /** 更新密码（含 salt） */
     int      updatePassword(Integer id, String newPassword, String salt);
 

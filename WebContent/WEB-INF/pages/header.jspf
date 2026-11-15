@@ -33,14 +33,18 @@
             <a href="${ctx}/register" style="color:#ecf0f1;margin-right:15px;text-decoration:none;">注册</a>
         </c:if>
         <c:if test="${not empty loginUser}">
-            <span style="color:#ecf0f1;margin-right:15px;">👤 ${loginUser.nickname}</span>
+            <span style="color:#ecf0f1;margin-right:15px;">👤 <c:out value="${loginUser.nickname}" /></span>
             <a href="${ctx}/strategy/publish" style="color:#2ecc71;margin-right:15px;text-decoration:none;">发布攻略</a>
             <a href="${ctx}/my" style="color:#3498db;margin-right:15px;text-decoration:none;">我的攻略</a>
             <c:if test="${loginUser.role == 1}">
                 <a href="${ctx}/admin" style="color:#f1c40f;margin-right:15px;text-decoration:none;">⚙ 管理后台</a>
             </c:if>
-            <a href="${ctx}/logout" style="color:#ecf0f1;text-decoration:none;"
-               onclick="return confirm('确定退出登录?')">退出</a>
+            <%-- SEC-3/BUG-4 修复：logout 从 GET 改 POST（状态变更应走 POST），表单携带 _csrf token --%>
+            <form method="post" action="${ctx}/logout" style="display:inline;"
+                  onsubmit="return confirm('确定退出登录?')">
+                <input type="hidden" name="_csrf" value="${sessionScope._csrf}" />
+                <button type="submit" style="background:none;border:none;color:#ecf0f1;cursor:pointer;text-decoration:none;font-family:inherit;font-size:inherit;">退出</button>
+            </form>
         </c:if>
     </div>
 </nav>

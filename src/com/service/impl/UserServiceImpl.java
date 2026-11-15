@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.bean.User;
 import com.dao.UserDao;
@@ -16,6 +17,13 @@ public class UserServiceImpl implements UserService {
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
+
+    // ===== SEC-4 暴力破解防护 =====
+    // username → long[0]=failCount, long[1]=firstFailTs(毫秒)
+    // 5 次失败后锁定 15 分钟（900000ms）
+    private static final int   LOCK_MAX_FAIL = 5;
+    private static final long  LOCK_COOLDOWN_MS = 15L * 60L * 1000L;
+    private static final ConcurrentHashMap<String, long[]> LOGIN_FAIL_MAP = new ConcurrentHashMap<>();
 
     /** MD5 加密工具 */
     public static String md5(String src) {
@@ -74,15 +82,54 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isLoginLocked(String username) {
+        long[] record = LOGIN_FAIL_MAP.get(username);
+        if (record == null) return false;
+        // 超过冷却期，自动解锁
+        if (System.currentTimeMillis() - record[1] > LOCK_COOLDOWN_MS) {
+            LOGIN_FAIL_MAP.remove(username);
+            return false;
+        }
+        return record[0] >= LOCK_MAX_FAIL;
+    }
+
+    @Override
     public User login(String username, String password) {
+        // 先查锁定
+        if (isLoginLocked(username)) {
+            return null; // DoLoginController 会额外检查 isLoginLocked 并显示锁定提示
+        }
         // 先按用户名查（拿到 salt）
         User u = userDao.findByUsername(username);
-        if (u == null) return null;
-        if (u.getStatus() != null && u.getStatus() == 0) return null; // 禁用
+        if (u == null) {
+            registerFail(username);
+            return null;
+        }
+        if (u.getStatus() != null && u.getStatus() == 0) {
+            registerFail(username);
+            return null;
+        }
         // 加盐哈希后比对
         String expected = hashPassword(password, u.getSalt());
-        if (!expected.equals(u.getPassword())) return null;
+        if (!expected.equals(u.getPassword())) {
+            registerFail(username);
+            return null;
+        }
+        // 登录成功，清掉失败计数
+        LOGIN_FAIL_MAP.remove(username);
         return u;
+    }
+
+    /** 记录一次登录失败 */
+    private void registerFail(String username) {
+        long now = System.currentTimeMillis();
+        long[] old = LOGIN_FAIL_MAP.get(username);
+        if (old == null || now - old[1] > LOCK_COOLDOWN_MS) {
+            // 新周期：或首次失败，或冷却期已过 → 重置
+            LOGIN_FAIL_MAP.put(username, new long[]{1, now});
+        } else {
+            old[0]++; // 复用数组引用，ConcurrentHashMap 无需 replace
+        }
     }
 
     @Override
@@ -106,20 +153,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateStatus(Integer id, Integer status) {
-        User u = userDao.findById(id);
-        if (u != null) {
-            u.setStatus(status);
-            userDao.update(u);
-        }
+        // PERF-2 修复：直接一条 UPDATE，避免先 findById 再 update 的 N+1
+        userDao.updateStatus(id, status);
     }
 
     @Override
     public void updateRole(Integer id, Integer role) {
-        User u = userDao.findById(id);
-        if (u != null) {
-            u.setRole(role);
-            userDao.update(u);
-        }
+        // PERF-2 修复：直接一条 UPDATE，避免先 findById 再 update 的 N+1
+        userDao.updateRole(id, role);
     }
 
     @Override

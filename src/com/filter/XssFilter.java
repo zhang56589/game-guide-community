@@ -78,11 +78,12 @@ public class XssFilter implements Filter {
             for (Pattern p : DANGER_PATTERNS) {
                 s = p.matcher(s).replaceAll("");
             }
-            // 基本 HTML 转义（< > & " '）
-            return s.replace('<', '＜')
-                    .replace('>', '＞')
-                    .replace('"', '＂')
-                    .replace('\'', '＇');
+            // 基本 HTML 转义（< > & " ' → 全角，防止被解析）
+            // 注意：用 Unicode escape 避免 GBK 编码下 Invalid character constant
+            return s.replace('<', '\uFF1C')   // ＜
+                    .replace('>', '\uFF1E')   // ＞
+                    .replace('"', '\uFF02')   // ＂
+                    .replace('\'', '\uFF07'); // ＇
         }
     }
 }

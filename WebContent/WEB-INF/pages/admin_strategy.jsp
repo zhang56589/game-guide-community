@@ -28,10 +28,10 @@
                 <tr style="border-bottom:1px solid #eee;">
                     <td style="padding:10px;text-align:center;">${s.id}</td>
                     <td style="padding:10px;">
-                        <a href="${ctx}/strategy/detail?id=${s.id}" style="color:#2c3e50;text-decoration:none;">${s.title}</a>
+                        <a href="${ctx}/strategy/detail?id=${s.id}" style="color:#2c3e50;text-decoration:none;"><c:out value="${s.title}" /></a>
                     </td>
-                    <td style="padding:10px;text-align:center;">${s.gameName}</td>
-                    <td style="padding:10px;text-align:center;color:#3498db;">${s.authorName}</td>
+                    <td style="padding:10px;text-align:center;"><c:out value="${s.gameName}" /></td>
+                    <td style="padding:10px;text-align:center;color:#3498db;"><c:out value="${s.authorName}" /></td>
                     <td style="padding:10px;text-align:center;color:#e67e22;">${s.viewCount}</td>
                     <td style="padding:10px;text-align:center;">
                         <c:if test="${s.status == 1}"><span style="color:#27ae60;">正常</span></c:if>
@@ -56,7 +56,7 @@
                         </c:if>
                         <c:if test="${s.status == 1 and s.auditStatus != 2}">
                             <form method="post" action="${ctx}/admin/strategy/audit" style="display:inline;margin-right:5px;"
-                                  onsubmit="return confirm('确定拒绝《${s.title}》?')">
+                                  onsubmit="return confirm('确定拒绝《<c:out value="${s.title}" />》?')">
                                 <input type="hidden" name="_csrf" value="${sessionScope._csrf}" />
                                 <input type="hidden" name="id" value="${s.id}" />
                                 <input type="hidden" name="action" value="reject" />
@@ -65,7 +65,7 @@
                         </c:if>
                         <c:if test="${s.status == 1}">
                             <form method="post" action="${ctx}/admin/strategy/delete" style="display:inline;"
-                                  onsubmit="return confirm('确定删除《${s.title}》?')">
+                                  onsubmit="return confirm('确定删除《<c:out value="${s.title}" />》?')">
                                 <input type="hidden" name="_csrf" value="${sessionScope._csrf}" />
                                 <input type="hidden" name="id" value="${s.id}" />
                                 <button type="submit" style="border:none;background:none;color:#95a5a6;cursor:pointer;font-size:13px;text-decoration:none;">删除</button>

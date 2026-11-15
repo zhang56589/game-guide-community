@@ -57,21 +57,33 @@ public class AuthFilter implements Filter {
         User loginUser = session == null ? null : (User) session.getAttribute("loginUser");
 
         // ========== /my/* 路径 ==========
-        if (path.startsWith("/my")) {
+        if (path.equals("/my") || path.startsWith("/my/")) {
             if (loginUser == null) {
                 resp.sendRedirect(ctx + "/login");
                 return;
             }
-            if (path.startsWith("/my/delete") && strategyDao != null) {
+            // BUG-2 修复：fail-closed，strategyDao 为空直接报错而非静默放行
+            if (path.startsWith("/my/delete")) {
+                if (strategyDao == null) {
+                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                            "安全过滤器初始化失败，请联系管理员");
+                    return;
+                }
                 String idStr = req.getParameter("id");
                 if (idStr != null) {
+                    Integer id;
                     try {
-                        Strategy s = strategyDao.findById(Integer.parseInt(idStr));
-                        if (s == null || !s.getUserId().equals(loginUser.getId())) {
-                            resp.sendError(HttpServletResponse.SC_FORBIDDEN, "该攻略不属于您");
-                            return;
-                        }
-                    } catch (NumberFormatException ignored) {}
+                        id = Integer.parseInt(idStr);
+                    } catch (NumberFormatException e) {
+                        // BUG-3 修复：非法 id 返回 400，不再抛 500
+                        resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "参数 id 格式错误");
+                        return;
+                    }
+                    Strategy s = strategyDao.findById(id);
+                    if (s == null || !s.getUserId().equals(loginUser.getId())) {
+                        resp.sendError(HttpServletResponse.SC_FORBIDDEN, "该攻略不属于您");
+                        return;
+                    }
                 }
             }
             chain.doFilter(request, response);
@@ -79,7 +91,7 @@ public class AuthFilter implements Filter {
         }
 
         // ========== /admin/* 路径 ==========
-        if (path.startsWith("/admin")) {
+        if (path.equals("/admin") || path.startsWith("/admin/")) {
             if (loginUser == null) { resp.sendRedirect(ctx + "/login"); return; }
             if (loginUser.getRole() == null || loginUser.getRole() != 1) {
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN, "仅管理员可访问后台");

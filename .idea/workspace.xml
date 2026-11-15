@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7e9fdb81-e28c-4f2f-a713-b4ae609dfe39" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/applicationContext.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/applicationContext.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/pages/admin_strategy.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/pages/admin_strategy.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/pages/admin_user.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/pages/admin_user.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/pages/detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/pages/detail.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/pages/header.jspf" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/pages/header.jspf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/pages/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/pages/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/pages/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/pages/login.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/pages/my.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/pages/my.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/pages/publish.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/pages/publish.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/pages/register.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/pages/register.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/aspect/AuditAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/aspect/AuditAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/AdminHomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/AdminHomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/AdminStrategyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/AdminStrategyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/AdminStrategyDeleteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/AdminStrategyDeleteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/AdminUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/AdminUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/AdminUserStatusController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/AdminUserStatusController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/DeleteMyStrategyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/DeleteMyStrategyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/DetailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/DetailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/DoLoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/DoLoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/DoPublishController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/DoPublishController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/DoRegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/DoRegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/LogoutController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/LogoutController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/MyStrategyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/MyStrategyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/PublishController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/PublishController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dao/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dao/impl/StrategyDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dao/impl/StrategyDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dao/impl/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dao/impl/UserDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/filter/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/filter/AuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/filter/CsrfFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/filter/CsrfFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/filter/XssFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/filter/XssFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/service/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/service/impl/CategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/service/impl/UserServiceImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "zhang56589"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/zhang56589/GameStrategyPlatform.git",
+    "accountId": "8574b064-32b9-4f4d-9909-433456988bdf"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="3Lm6niIvpnfa1s6gA40mM65Cowc" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10315.125" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10315.125" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="7e9fdb81-e28c-4f2f-a713-b4ae609dfe39" name="更改" comment="" />
+      <created>1794047077615</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1794047077615</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

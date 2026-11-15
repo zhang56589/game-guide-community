@@ -33,7 +33,7 @@ public class StrategyDaoImpl implements StrategyDao {
             s.setGameName(rs.getString("game_name"));
             s.setContent(rs.getString("content"));
             s.setCoverImage(rs.getString("cover_image"));
-            s.setUserId(rs.getInt("user_id"));
+            s.setUserId(rs.getObject("user_id") == null ? null : rs.getInt("user_id"));
             s.setCategoryId(rs.getObject("category_id") == null ? null : rs.getInt("category_id"));
             s.setViewCount(rs.getInt("view_count"));
             s.setLikeCount(rs.getInt("like_count"));
@@ -90,7 +90,7 @@ public class StrategyDaoImpl implements StrategyDao {
     @Override
     public int insert(Strategy s) {
         GeneratedKeyHolder kh = new GeneratedKeyHolder();
-        jdbcTemplate.update(conn -> {
+        int rows = jdbcTemplate.update(conn -> {
             PreparedStatement ps = conn.prepareStatement(INSERT, new String[]{"id"});
             ps.setString(1, s.getTitle());
             ps.setString(2, s.getGameName());
@@ -107,7 +107,8 @@ public class StrategyDaoImpl implements StrategyDao {
         if (kh.getKey() != null) {
             s.setId(kh.getKey().intValue());
         }
-        return 1;
+        // BUG-7 修复：返回真实影响行数，不再恒返回 1
+        return rows;
     }
 
     @Override

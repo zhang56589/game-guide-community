@@ -8,6 +8,8 @@ public interface UserService {
     String  register(User user);
     /** 登录：返回用户或null */
     User    login(String username, String password);
+    /** SEC-4 暴力破解防护：该账号是否被锁定（5次失败后15分钟内） */
+    boolean isLoginLocked(String username);
     /** 按ID查 */
     User    findById(Integer id);
     /** 所有用户 */

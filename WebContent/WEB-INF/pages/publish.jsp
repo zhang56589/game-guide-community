@@ -8,7 +8,7 @@
 
     <c:if test="${not empty error}">
         <div style="background:#fdecea;border:1px solid #f5b7b1;color:#c0392b;padding:10px;border-radius:4px;margin-bottom:15px;font-size:13px;">
-            ⚠ ${error}
+            ⚠ <c:out value="${error}" />
         </div>
     </c:if>
 

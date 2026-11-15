@@ -2,6 +2,8 @@ package com.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.UUID;
 import com.bean.User;
 import com.service.UserService;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,9 +48,16 @@ public class DoRegisterController implements Controller {
             mav.addObject("nickname", nickname);
             return mav;
         }
-        // 注册成功自动登录
+        // 注册成功自动登录（防 Session 固定攻击：销毁旧 session 再写入）
         User loginUser = userService.login(username.trim(), password);
-        request.getSession().setAttribute("loginUser", loginUser);
+        if (loginUser != null) {
+            HttpSession oldSession = request.getSession(false);
+            if (oldSession != null) oldSession.invalidate();
+            HttpSession newSession = request.getSession(true);
+            // BUG-1 修复：新 session 补种 CSRF token，否则注册后首个 POST 必 403
+            newSession.setAttribute("_csrf", UUID.randomUUID().toString());
+            newSession.setAttribute("loginUser", loginUser);
+        }
         return new ModelAndView("redirect:/");
     }
 }

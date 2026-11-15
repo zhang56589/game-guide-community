@@ -8,7 +8,7 @@
 <div style="max-width:1100px;margin:20px auto;padding:0 20px;">
     <c:if test="${not empty error}">
         <div style="background:#fdecea;border:1px solid #f5b7b1;color:#c0392b;padding:10px;border-radius:4px;margin-bottom:15px;">
-            ⚠ ${error}
+            ⚠ <c:out value="${error}" />
         </div>
     </c:if>
 
@@ -17,16 +17,16 @@
         <strong style="margin-right:12px;">分类：</strong>
         <a href="${ctx}/" style="margin-right:10px;text-decoration:none;">全部</a>
         <c:forEach items="${categories}" var="cat">
-            <a href="${ctx}/search?category=${cat.id}" style="margin-right:10px;text-decoration:none;">${cat.name}</a>
+            <a href="${ctx}/search?category=${cat.id}" style="margin-right:10px;text-decoration:none;"><c:out value="${cat.name}" /></a>
         </c:forEach>
     </div>
 
     <%-- 结果标题 --%>
     <c:if test="${not empty keyword}">
-        <h3>搜索 " ${keyword} " 的结果</h3>
+        <h3>搜索 " <c:out value="${keyword}" /> " 的结果</h3>
     </c:if>
     <c:if test="${not empty category}">
-        <h3>分类：${category.name} 下的攻略</h3>
+        <h3>分类：<c:out value="${category.name}" /> 下的攻略</h3>
     </c:if>
 
     <%-- 攻略列表 --%>
@@ -57,12 +57,12 @@
                 <tr style="border-bottom:1px solid #eee;" onmouseover="this.style.background='#f1f3f5'" onmouseout="this.style.background=''">
                     <td style="padding:12px;">
                         <a href="${ctx}/strategy/detail?id=${s.id}" style="color:#2c3e50;text-decoration:none;font-weight:500;">
-                            📖 ${s.title}
+                            📖 <c:out value="${s.title}" />
                         </a>
                     </td>
-                    <td style="padding:12px;text-align:center;">${s.gameName}</td>
-                    <td style="padding:12px;text-align:center;color:#7f8c8d;">${s.categoryName}</td>
-                    <td style="padding:12px;text-align:center;color:#3498db;">${s.authorName}</td>
+                    <td style="padding:12px;text-align:center;"><c:out value="${s.gameName}" /></td>
+                    <td style="padding:12px;text-align:center;color:#7f8c8d;"><c:out value="${s.categoryName}" /></td>
+                    <td style="padding:12px;text-align:center;color:#3498db;"><c:out value="${s.authorName}" /></td>
                     <td style="padding:12px;text-align:center;color:#e67e22;">${s.viewCount}</td>
                     <td style="padding:12px;text-align:center;color:#95a5a6;font-size:13px;">
                         <fmt:formatDate value="${s.createTime}" pattern="yyyy-MM-dd HH:mm"/>

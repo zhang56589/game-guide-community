@@ -3,6 +3,7 @@ package com.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import com.bean.User;
 import com.service.UserService;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,7 +18,8 @@ public class AdminUserController implements Controller {
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) {
-        User u = (User) request.getSession().getAttribute("loginUser");
+        HttpSession session = request.getSession(false);
+        User u = session == null ? null : (User) session.getAttribute("loginUser");
         if (u == null || !u.isAdmin()) return new ModelAndView("redirect:/");
 
         List<User> users = userService.findAll();
